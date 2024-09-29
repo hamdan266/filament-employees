@@ -25,37 +25,66 @@ class EmployeeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('country_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('state_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('city_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('department_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('first_name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('last_name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('middle_name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('address')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('zip_code')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('date_of_birth')
-                    ->required(),
-                Forms\Components\DatePicker::make('date_hired')
-                    ->required(),
+
+                Forms\Components\Section::make('Relationships')
+                    ->schema([
+                        Forms\Components\Select::make('country_id')
+                            ->relationship(name: 'country', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Forms\Components\Select::make('state_id')
+                            ->relationship(name: 'state', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Forms\Components\Select::make('city_id')
+                            ->relationship(name: 'city', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Forms\Components\Select::make('department_id')
+                            ->relationship(name: 'department', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('User Name')
+                    ->description('Put the user name details in.')
+                    ->schema([
+                        Forms\Components\TextInput::make('first_name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('last_name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('middle_name')
+                            ->required()
+                            ->maxLength(255),
+                    ])->columns(3),
+
+                Forms\Components\Section::make('User address')
+                    ->schema([
+                        Forms\Components\TextInput::make('address')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('zip_code')
+                            ->required()
+                            ->maxLength(255),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Dates')
+                    ->schema([
+                        Forms\Components\DatePicker::make('date_of_birth')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
+                            ->required(),
+                        Forms\Components\DatePicker::make('date_hired')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
+                            ->required(),
+                    ])->columns(2)
             ]);
     }
 
