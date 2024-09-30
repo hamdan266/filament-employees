@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CityResource\Pages;
 use App\Filament\Resources\CityResource\RelationManagers;
+use App\Filament\Resources\CityResource\RelationManagers\EmployeesRelationManager;
 use App\Models\City;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -34,14 +35,17 @@ class CityResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('state_id')
-                ->relationship(name: 'state', titleAttribute: 'name')
-                ->searchable()
-                ->preload()
-                ->required(),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Section::make('City Details')
+                    ->schema([
+                        Forms\Components\Select::make('state_id')
+                            ->relationship(name: 'state', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                    ])
             ]);
     }
 
@@ -74,6 +78,9 @@ class CityResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
             ]);
     }
 
@@ -81,19 +88,18 @@ class CityResource extends Resource
     {
         return $infolist
             ->schema([
-                Section::make('City Information')
+                Section::make('City Info')
                     ->schema([
                         TextEntry::make('state.name')->label('State Name'),
-                        TextEntry::make('name')->label('City Name'),
+                        TextEntry::make('name')->label('City name'),
                     ])->columns(2)
             ]);
-
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            EmployeesRelationManager::class
         ];
     }
 
@@ -102,7 +108,7 @@ class CityResource extends Resource
         return [
             'index' => Pages\ListCities::route('/'),
             'create' => Pages\CreateCity::route('/create'),
-            // 'view' => Pages\ViewCity::route('/{record}'),
+            'view' => Pages\ViewCity::route('/{record}'),
             'edit' => Pages\EditCity::route('/{record}/edit'),
         ];
     }
