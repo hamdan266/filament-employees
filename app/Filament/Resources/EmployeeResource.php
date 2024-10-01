@@ -15,6 +15,7 @@ use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
@@ -26,7 +27,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Filament\Notifications\Notification;
 
 class EmployeeResource extends Resource
 {
@@ -74,7 +74,6 @@ class EmployeeResource extends Resource
     {
         return $form
             ->schema([
-
                 Forms\Components\Section::make('Relationships')
                     ->schema([
                         Forms\Components\Select::make('country_id')
@@ -109,7 +108,6 @@ class EmployeeResource extends Resource
                             ->preload()
                             ->required(),
                     ])->columns(2),
-
                 Forms\Components\Section::make('User Name')
                     ->description('Put the user name details in.')
                     ->schema([
@@ -123,7 +121,6 @@ class EmployeeResource extends Resource
                             ->required()
                             ->maxLength(255),
                     ])->columns(3),
-
                 Forms\Components\Section::make('User address')
                     ->schema([
                         Forms\Components\TextInput::make('address')
@@ -133,7 +130,6 @@ class EmployeeResource extends Resource
                             ->required()
                             ->maxLength(255),
                     ])->columns(2),
-
                 Forms\Components\Section::make('Dates')
                     ->schema([
                         Forms\Components\DatePicker::make('date_of_birth')
@@ -145,6 +141,7 @@ class EmployeeResource extends Resource
                             ->displayFormat('d/m/Y')
                             ->required(),
                     ])->columns(2)
+
             ]);
     }
 
@@ -226,14 +223,17 @@ class EmployeeResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Employee Deleted')
-                            ->body('The employee details have been deleted successfully.')
+                            ->title('Employee deleted.')
+                            ->body('The Employee deleted successfully.')
                     )
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
             ]);
     }
 
@@ -244,28 +244,32 @@ class EmployeeResource extends Resource
                 Section::make('Relationships')
                     ->schema([
                         TextEntry::make('country.name'),
-                        TextEntry::make('state.name'),
-                        TextEntry::make('city.name'),
+                        TextEntry::make(
+                            'state.name'
+                        ),
+                        TextEntry::make(
+                            'city.name'
+                        ),
                         TextEntry::make('department.name'),
                     ])->columns(2),
                 Section::make('Name')
                     ->schema([
                         TextEntry::make('first_name'),
-                        TextEntry::make('middle_name'),
-                        TextEntry::make('last_name'),
+                        TextEntry::make(
+                            'middle_name'
+                        ),
+                        TextEntry::make(
+                            'last_name'
+                        ),
                     ])->columns(3),
                 Section::make('Address')
                     ->schema([
                         TextEntry::make('address'),
-                        TextEntry::make('zip_code'),
-                    ])->columns(2),
-                Section::make('Dates')
-                    ->schema([
-                        TextEntry::make('date_of_birth'),
-                        TextEntry::make('date_hired'),
+                        TextEntry::make(
+                            'zip_code'
+                        ),
                     ])->columns(2)
             ]);
-
     }
 
     public static function getRelations(): array
@@ -280,7 +284,7 @@ class EmployeeResource extends Resource
         return [
             'index' => Pages\ListEmployees::route('/'),
             'create' => Pages\CreateEmployee::route('/create'),
-            // 'view' => Pages\ViewEmployee::route('/{record}'),
+            //'view' => Pages\ViewEmployee::route('/{record}'),
             'edit' => Pages\EditEmployee::route('/{record}/edit'),
         ];
     }

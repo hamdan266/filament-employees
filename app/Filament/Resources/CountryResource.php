@@ -84,6 +84,9 @@ class CountryResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
             ]);
     }
 
@@ -91,14 +94,15 @@ class CountryResource extends Resource
     {
         return $infolist
             ->schema([
-                Section::make('Country Information')
+                Section::make('Country Info')
                     ->schema([
                         TextEntry::make('name')->label('Name'),
-                        TextEntry::make('code')->label('Country Code'),
+                        TextEntry::make('code')->label(
+                            'Country Code'
+                        ),
                         TextEntry::make('phonecode')->label('Phone Code'),
-                    ])->columns(3)
+                    ])->columns(2)
             ]);
-
     }
 
     public static function getRelations(): array

@@ -23,7 +23,7 @@ class EditEmployee extends EditRecord
     {
         return Notification::make()
             ->success()
-            ->title('Employee Updated')
-            ->body('The employee details have been updated successfully.');
+            ->title('Employee updated.')
+            ->body('The Employee updated successfully.');
     }
 }

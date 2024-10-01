@@ -13,7 +13,6 @@ class CountrySeeder extends Seeder
      */
     public function run(): void
     {
-        //
         DB::table('countries')->delete();
         $countries = array(
             array('id' => 1, 'code' => 'AF', 'name' => "Afghanistan", 'phonecode' => 93),

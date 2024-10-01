@@ -50,9 +50,4 @@ class EmployeesRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-
-    public function isReadOnly(): bool
-    {
-        return false;
-    }
 }

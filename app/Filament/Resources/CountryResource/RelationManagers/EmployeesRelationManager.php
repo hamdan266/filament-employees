@@ -57,7 +57,6 @@ class EmployeesRelationManager extends RelationManager
                             ->preload()
                             ->required(),
                     ])->columns(2),
-
                 Forms\Components\Section::make('User Name')
                     ->description('Put the user name details in.')
                     ->schema([
@@ -71,7 +70,6 @@ class EmployeesRelationManager extends RelationManager
                             ->required()
                             ->maxLength(255),
                     ])->columns(3),
-
                 Forms\Components\Section::make('User address')
                     ->schema([
                         Forms\Components\TextInput::make('address')
@@ -81,7 +79,6 @@ class EmployeesRelationManager extends RelationManager
                             ->required()
                             ->maxLength(255),
                     ])->columns(2),
-
                 Forms\Components\Section::make('Dates')
                     ->schema([
                         Forms\Components\DatePicker::make('date_of_birth')
@@ -93,6 +90,7 @@ class EmployeesRelationManager extends RelationManager
                             ->displayFormat('d/m/Y')
                             ->required(),
                     ])->columns(2)
+
             ]);
     }
 
@@ -144,6 +142,9 @@ class EmployeesRelationManager extends RelationManager
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
             ]);
     }
 }

@@ -81,6 +81,9 @@ class DepartmentResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
             ]);
     }
 
@@ -88,7 +91,7 @@ class DepartmentResource extends Resource
     {
         return $infolist
             ->schema([
-                Section::make('Department Information')
+                Section::make('Department Info')
                     ->schema([
                         TextEntry::make('name'),
                         TextEntry::make('employees_count')
@@ -97,7 +100,6 @@ class DepartmentResource extends Resource
                             }),
                     ])->columns(2)
             ]);
-
     }
 
     public static function getRelations(): array
@@ -112,7 +114,7 @@ class DepartmentResource extends Resource
         return [
             'index' => Pages\ListDepartments::route('/'),
             'create' => Pages\CreateDepartment::route('/create'),
-            // 'view' => Pages\ViewDepartment::route('/{record}'),
+            //'view' => Pages\ViewDepartment::route('/{record}'),
             'edit' => Pages\EditDepartment::route('/{record}/edit'),
         ];
     }

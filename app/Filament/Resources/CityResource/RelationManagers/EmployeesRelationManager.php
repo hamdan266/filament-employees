@@ -50,10 +50,4 @@ class EmployeesRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-
-    // MENAMPILKAN CRUD BUTTON PADA HALAMAN VIEW
-    // public function isReadOnly(): bool
-    // {
-    //     return false;
-    // }
 }
